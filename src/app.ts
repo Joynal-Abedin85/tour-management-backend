@@ -1,8 +1,12 @@
 
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 // import { userRoutes } from "./app/modules/user/user.routes";
 import cors from "cors"
 import { router } from "./app/routes";
+import { success } from "zod";
+import { envVars } from "./app/config/env";
+import { globalerrorhandel } from "./app/middlewares/globalerror";
+import notfound from "./app/middlewares/notfound";
 
 const app = express();
 
@@ -16,5 +20,9 @@ app.get("/", (req: Request, res: Response) => {
         message: "welcome to tour management system backend"
     })
 })
+
+app.use(globalerrorhandel)
+
+app.use(notfound)
 
 export default app
