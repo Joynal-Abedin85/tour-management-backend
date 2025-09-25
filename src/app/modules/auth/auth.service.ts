@@ -4,6 +4,8 @@ import { User } from "../user/user.model";
 import httpStatus from "http-status-codes"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken";
+import { envVars } from "../../config/env";
+import { generatetoken } from "../../utils/jwt";
 
 
 
@@ -28,9 +30,11 @@ const credentialslogin = async (payload: Partial<IUser>) => {
         role: isuserexist.role,
     }
 
-    const accesstoken = jwt.sign(jwtpayload, "secret",{
-        expiresIn: "1d"
-    })
+    const accesstoken = generatetoken(jwtpayload, envVars.JWT_ACCESS_SECRET, envVars.JWT_ACCESS_EXPIRES)
+
+    // const accesstoken = jwt.sign(jwtpayload, "secret",{
+    //     expiresIn: "1d"
+    // })
 
     return {
       accesstoken
