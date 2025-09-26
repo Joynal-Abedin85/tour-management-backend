@@ -11,6 +11,7 @@ export const checkAuth = (...authroles: string[]) => async (req: Request, res: R
     try{
         const accesstoken = req.headers.authorization;
 
+
         if(!accesstoken){
             throw new AppError(403, "no token error")
         }
@@ -22,7 +23,7 @@ export const checkAuth = (...authroles: string[]) => async (req: Request, res: R
         }
         
 
-        
+        req.user= verifiedtoken
 
         next()
     } catch (error){

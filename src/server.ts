@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import app from "./app";
 import { cloneDef } from "zod/v4/core/util.cjs";
 import { envVars } from "./app/config/env";
+import { seedsuperadmin } from "./app/utils/seedsuperadmin";
 
 let server: Server;
 
@@ -20,7 +21,10 @@ const startserver = async () => {
   }
 };
 
-startserver();
+(async () => {
+  await startserver();
+  await seedsuperadmin()
+})()
 
 process.on("unhandledRejection", () => {
   console.log("unhandled rejection detected... server shutting down...");
