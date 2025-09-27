@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { usercontroller } from "./user.controller";
-import { createUserZodSchema } from "./uservalidation";
+import { createUserZodSchema, updateUserZodSchema } from "./uservalidation";
 import {ZodObject} from "zod"
 import { validaterequest } from "../../middlewares/validaterequest";
 import  jwt, { JwtPayload } from "jsonwebtoken";
@@ -9,6 +9,7 @@ import { Role } from "./user.interface";
 import { envVars } from "../../config/env";
 import { verifytoken } from "../../utils/jwt";
 import { checkAuth } from "../../middlewares/checkauth";
+import { authcontroller } from "../auth/auth.controller";
 
 
 
@@ -18,6 +19,7 @@ const  router = Router()
 
 router.post("/register" ,validaterequest(createUserZodSchema),usercontroller.createuser)
 router.get("/all-users" ,checkAuth(Role.ADMIN, Role.SUPER_ADMIN) , usercontroller.getallusers)
+router.patch("/:id",validaterequest(updateUserZodSchema) ,checkAuth(...Object.values(Role)), usercontroller.updateduser)
 
 
 export const userRoutes = router
