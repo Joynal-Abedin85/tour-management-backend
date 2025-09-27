@@ -32,12 +32,16 @@ const credentialslogin = async (payload: Partial<IUser>) => {
 
     const accesstoken = generatetoken(jwtpayload, envVars.JWT_ACCESS_SECRET, envVars.JWT_ACCESS_EXPIRES)
 
-    // const accesstoken = jwt.sign(jwtpayload, "secret",{
-    //     expiresIn: "1d"
-    // })
+    const refreshtoken = generatetoken(jwtpayload,envVars.JWT_REFRESH_SECRET, envVars.JWT_REFRESH_EXPIRED)
+
+    // delete isuserexist.password
+
+    const {password: pass, ...rest} = isuserexist
 
     return {
-      accesstoken
+      accesstoken,
+      refreshtoken,
+      user: isuserexist
     }
 
 
